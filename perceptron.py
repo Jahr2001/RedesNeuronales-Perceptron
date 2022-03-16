@@ -1,3 +1,5 @@
+from cProfile import label
+from matplotlib import markers
 import numpy as np
 import math
 
@@ -56,34 +58,33 @@ def entrada(wk, ns):
 
 def grafica(ns, curvas):
 
-    ax = plt.subplot(1, 2, 1)
+    grafica = plt.subplot(1, 2, 1)
 
-    ax.set_title('Gráfica')
+    grafica.set_title('Gráfica')
 
-    for x in range(len(curvas)):
+    for i in range(len(curvas)):
         marker = 'o'
-        ax.plot(curvas[x][1], curvas[x][0],
-                marker=f'{marker}', label=f'η{x+1} = {ns[x]}')
+        grafica.plot(curvas[i][1], curvas[i][0], marker = marker, linestyle = 'solid', label =  f'η{i+1} = {ns[i]}')
 
-    ax.legend()
+    grafica.legend()
 
-    ax2 = plt.subplot(1, 2, 2)
-    ax2.axis('tight')
-    ax2.axis('off')
+    
+    tabla = plt.subplot(1, 2, 2)
+    tabla.set_title('Tabla')
+
+    tabla.axis('off')
 
     table = [['η (Taza de aprendizaje)', 'Ultimos pesos de W']]
 
     for y in range(len(ns)):
-        redo = []
+        redondear = []
         for f in range(len(curvas[y][2])):
-            redo.append(round(curvas[y][2][f], 3))
+            redondear.append(round(curvas[y][2][f], 3))
 
-        table.append([ns[y], redo])
+        table.append([ns[y], redondear])
 
-    table = ax2.table(cellText=table, loc='center', cellLoc= 'center')
+    table = tabla.table(cellText=table, loc='center', cellLoc= 'center')
     table.auto_set_font_size(False)
-    table.set_fontsize(10)
+    table.set_fontsize(12)
     table.scale(1, 3)
-
-    plt.tight_layout()
     plt.show()
